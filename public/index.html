@@ -39,6 +39,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;opacity:.03;ba
 .tab.on{color:var(--tx);font-weight:600}
 .tab.on::after{content:'';position:absolute;bottom:-1px;left:10px;right:10px;height:2px;background:var(--acc);border-radius:1px}
 .tab .ti{margin-right:6px}
+.fr-flag{display:inline-flex;font-size:9px;font-weight:800;font-family:'IBM Plex Mono',monospace;padding:3px 6px;border-radius:3px;background:linear-gradient(90deg,#002395 33%,#fff 33%,#fff 66%,#ED2939 66%);color:#fff;letter-spacing:.06em;line-height:1;text-shadow:0 0 3px rgba(0,0,0,.5)}
 
 .sbar{max-width:780px;margin:16px auto 0;padding:0 24px;display:none}
 .sbar.on{display:block}
@@ -131,7 +132,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;opacity:.03;ba
 <div class="tabs">
   <button class="tab on" onclick="switchTab('mondial')"><span class="ti">🌍</span>Mondial</button>
   <button class="tab" onclick="switchTab('finance')"><span class="ti">📈</span>Finance</button>
-  <button class="tab" onclick="switchTab('france')"><span class="ti">🇫🇷</span>France</button>
+  <button class="tab" onclick="switchTab('france')"><span class="ti fr-flag">FR</span>France</button>
 </div>
 
 <div class="sbar" id="sb"><div class="sbar-in"><div class="spin"></div><span id="stxt"></span></div></div>
@@ -213,7 +214,9 @@ $("fl").addEventListener("scroll",updateArrows);
 
 function rBdg(){
   const arts=data[tab]||[];
-  const cc=arts.filter(a=>a.priority==="critical").length,hc=arts.filter(a=>a.priority==="high").length;
+  const cutoff=Date.now()-3600000;
+  const recent=arts.filter(a=>new Date(a.timestamp).getTime()>cutoff);
+  const cc=recent.filter(a=>a.priority==="critical").length,hc=recent.filter(a=>a.priority==="high").length;
   let h="";
   if(cc)h+=`<span class="bdg"><span class="dot dot-c"></span><span style="color:var(--crit)">${cc}</span></span>`;
   if(hc)h+=`<span class="bdg" style="margin-left:8px"><span class="dot dot-h"></span><span style="color:var(--high)">${hc}</span></span>`;

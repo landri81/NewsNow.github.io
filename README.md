@@ -1,48 +1,31 @@
-# ⚡ NewzNow
+# ⚡ NewzNow v2
 
-Fil d'actualité mondial alimenté par Claude AI, mis à jour automatiquement toutes les 5 minutes.
+Fil d'actualité en temps réel, 100% gratuit, alimenté par flux RSS.
 
 ## 📁 Structure
-
 ```
 newznow/
-├── server.js          ← Serveur backend (protège ta clé API)
-├── package.json       ← Dépendances
+├── server.js          ← Backend (RSS feeds + API REST)
+├── package.json
 ├── public/
-│   └── index.html     ← L'interface (ce que les visiteurs voient)
+│   └── index.html     ← Interface web
 └── README.md
 ```
 
-## 🚀 Déploiement gratuit sur Render.com
+## 💰 Coût: 0€
+Aucune API payante. Sources 100% RSS (France24, RFI, BBC, Le Monde, Les Echos, BFM, France Info, etc.)
 
-### Étape 1 — Obtenir ta clé API Anthropic
-1. Va sur https://console.anthropic.com
-2. Crée un compte si nécessaire
-3. Va dans "API Keys" → "Create Key"
-4. Copie la clé (commence par `sk-ant-...`)
+## 🚀 Déploiement sur Render.com
+1. Upload sur GitHub
+2. Render → New Web Service → connecter le repo
+3. Runtime: Node / Build: `npm install` / Start: `npm start`
+4. **Aucune variable d'environnement requise**
+5. C'est tout !
 
-### Étape 2 — Mettre le code sur GitHub
-1. Crée un compte GitHub (github.com) si tu n'en as pas
-2. Crée un nouveau repository → nomme-le `newznow`
-3. Upload les fichiers du projet
-
-### Étape 3 — Déployer sur Render.com (gratuit)
-1. Va sur https://render.com → connecte-toi avec GitHub
-2. "New +" → "Web Service" → connecte le repo `newznow`
-3. Configure :
-   - **Name** : newznow
-   - **Region** : Frankfurt (EU)
-   - **Runtime** : Node
-   - **Build Command** : `npm install`
-   - **Start Command** : `npm start`
-   - **Instance Type** : Free
-4. Ajoute la variable d'environnement :
-   - **Key** : `ANTHROPIC_API_KEY`
-   - **Value** : ta clé `sk-ant-...`
-5. Clique "Create Web Service"
-
-✅ Ton site sera en ligne à `https://newznow.onrender.com`
-
-## 💰 Coûts
-- **Hébergement** : Gratuit (Render)
-- **API Claude** : ~3-9€/mois (refresh toutes les 5 min 24/7)
+## 📱 API REST pour app mobile
+- `GET /api/v1/feeds` — liste des feeds disponibles
+- `GET /api/v1/feed/mondial?page=1&limit=20` — articles paginés
+- `GET /api/v1/feed/finance`
+- `GET /api/v1/feed/france`
+- `GET /api/v1/search?q=keyword&tab=mondial` — recherche
+- `GET /api/v1/stats` — statistiques par feed
